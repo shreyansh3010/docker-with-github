@@ -1,0 +1,22 @@
+{
+  "name": "docker-with-github",
+  "version": "1.0.0",
+  "description": "Trying out docker push automation through github",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyansh3010/docker-with-github.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shreyansh3010/docker-with-github/issues"
+  },
+  "homepage": "https://github.com/shreyansh3010/docker-with-github#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
