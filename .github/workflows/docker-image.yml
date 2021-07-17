@@ -22,4 +22,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/docker-with-github:v3
     - name: Push the Docker image
-      run: docker push ${{secrets.DOCKER_USER}}/docker-with-github:v3
+      run: docker push ${{secrets.DOCKER_USER}}/docker-with-github:v4
