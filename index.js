@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send({
-        message : 'Hello World'
-    })
-})
+app.use(express.static('./build'));
+
+app.get('/*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/build/index.html'));
+});
 
 app.listen(3000, (err, result) => {
     console.log('Server is running on port 3000');
