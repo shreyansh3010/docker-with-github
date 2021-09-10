@@ -1,25 +1,45 @@
-name: Docker Image CI
+name : GKE  Deployment
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on : 
+  push :
+    branches : 
+      - main
 
-jobs:
+env : 
+  PROJECT_ID : ${{secrets.GKE_PROJECT}}
+  GKE_CLUSTER : anton-prod-gke
+  GKE_ZONE : us-central1-c
+  DEPLOYMENT_NAME : github-actions-gke-deployment
+  IMAGE : github-actions-gke-image
+  TAG : 1.0.0
 
-  build:
-
-    runs-on: ubuntu-latest
+jobs : 
+  setup-build-publish :
+    name : Setup build, publish & deploy
+    runs-on : ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Docker Login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/docker-with-github:v14
-    - name: Push the Docker image
-      run: docker push ${{secrets.DOCKER_USER}}/docker-with-github:v14
+      - name : Checkout Respository
+        uses : actions/checkout@v2
+
+      - name : Setup Google Cloud CLI
+        uses : google-github-actions/setup-gcloud@master
+        env :
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        with :
+          service_account_key : ${{secrets.GKE_KEY}}
+          project_id : ${{secrets.GKE_PROJECT}}
+
+      - name : Configure Docker
+        run :  gcloud --quiet auth configure-docker
+
+      - name : Get GKE Credentials
+        run : gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "GKE_ZONE"
+
+      - name : Build Docker Image
+        run : docker build --tag "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
+
+      - name : Publish Docker Image To GCR
+        run : docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
+
+    
