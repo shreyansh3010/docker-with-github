@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anton-prod-gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anton-prod-gke
+  template:
+    metadata:
+      labels:
+        app: anton-prod-gke
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: Always
