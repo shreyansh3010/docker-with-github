@@ -5,6 +5,7 @@ const path = require('path');
 app.use(express.static('./build'));
 
 app.get('/*',(req,res)=>{
+    return res.send(process.env.NODE_ENV)
     res.sendFile(path.join(__dirname,'/build/index.html'));
 });
 
