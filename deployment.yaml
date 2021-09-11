@@ -16,3 +16,6 @@ spec:
         - name: app
           image: camunda/camunda-bpm-platform
           imagePullPolicy: Always
+          env : 
+            - name : NODE_ENV
+              value : testing hello world
