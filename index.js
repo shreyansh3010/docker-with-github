@@ -9,6 +9,6 @@ app.get('/*',(req,res)=>{
     res.sendFile(path.join(__dirname,'/build/index.html'));
 });
 
-app.listen(3000, (err, result) => {
+app.listen(8080, (err, result) => {
     console.log('Server is running on port 3000');
 })
